@@ -14,11 +14,11 @@ stage('Build'){
 sh "${mavenHOME}/bin/mvn clean package"
 }
 
-/*
+
 stage('ExecuteSonarQubeReport'){
 sh "${mavenHOME}/bin/mvn clean sonar:sonar"
 }
-
+/*
 stage('UploadArtifactsInfoArtificatoryRepo'){
 sh "${mavenHOME}/bin/mvn clean deploy"
 }
