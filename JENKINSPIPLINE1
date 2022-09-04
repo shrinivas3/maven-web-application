@@ -5,7 +5,7 @@ echo "Jenkins url is:{env.JENKINS_URL}"
 echo "Build id is:{env.BUILD_ID}"
 
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
-
+try{
  stage('CheckOutCode'){
  git branch: 'Development', credentialsId: '4744455b-6ae3-4cd5-b676-dd6517c2ede9', url: 'https://github.com/shrinivas3/maven-web-application.git'
  }
@@ -18,7 +18,7 @@ sh "${mavenHOME}/bin/mvn clean package"
 stage('ExecuteSonarQubeReport'){
 sh "${mavenHOME}/bin/mvn clean sonar:sonar"
 }
-/*
+
 stage('UploadArtifactsInfoArtificatoryRepo'){
 sh "${mavenHOME}/bin/mvn clean deploy"
 }
@@ -28,7 +28,16 @@ sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@17
 }
 
 }
-*/
+
+}//try block closing
+catch(e){
+SlackNotification(CurrentBuild.result)
+throw e
+}
+finally{
+SlackNotification(CurrentBuildsucess")
+}
+
 }//node closing
 
 //code snippet for sending slacknotifcation
