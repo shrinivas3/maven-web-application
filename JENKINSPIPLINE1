@@ -18,7 +18,7 @@ stage('Build'){
 sh "${mavenHOME}/bin/mvn clean package"
 }
 
-
+/*
 stage('ExecuteSonarQubeReport'){
 sh "${mavenHOME}/bin/mvn clean sonar:sonar"
 }
@@ -32,7 +32,7 @@ sshagent(['71148a7d-cfa0-4278-bc1a-d1642c60caef']) {
 sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.45.106:/opt/apache-tomcat-9.0.65/webapps/"
 }
 }
-
+*/
 }//try block closing
 catch(e){
 SlackNotification("FAILED")
